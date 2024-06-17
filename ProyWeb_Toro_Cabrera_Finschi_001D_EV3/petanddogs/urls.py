@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('index', views.index, name='index'),
@@ -17,4 +19,13 @@ urlpatterns = [
     path('galeria/diamond', views.diamond, name='diamond'),
     path('galeria/orijen', views.orijen, name='orijen'),
     path('galeria/taste', views.taste, name='taste'),
+    path('productos', views.productos, name='productos'),
+    path('crud',views.crud,name='crud'),
+    path('productosAdd', views.productosAdd, name='productosAdd'),
+    path('productosUpdate', views.productosUpdate, name='productosUpdate'),
+    path('productos_findEdit/<str:pk>', views.productos_findEdit, name='productos_findEdit'),
+    path('productos_del/<str:pk>', views.productos_del, name='productos_del'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

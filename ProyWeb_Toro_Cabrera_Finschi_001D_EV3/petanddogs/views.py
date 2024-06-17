@@ -1,6 +1,7 @@
 from django.shortcuts import render
-
+from .models import Categoria, Producto
 # Create your views here.
+
 def index(request):
     context={}
     return render(request,'petanddogs/index.html', context)
@@ -60,3 +61,97 @@ def orijen(request):
 def taste(request):
     context={}
     return render(request, 'petanddogs/Taste.html', context)
+
+def productos(request):
+    productos= Producto.objects.all()
+    context={"productos":productos}
+    return render(request, 'petanddogs/productos.html', context)
+
+def crud(request):
+    productos= Producto.objects.all()
+    context={'productos':productos}
+    return render(request, 'petanddogs/product_list.html',context)
+
+def productosAdd(request):
+    if request.method is not "POST":
+        categorias=Categoria.objects.all()
+        context={'categorias':categorias}
+        return render(request,'petanddogs/productos_add.html',context)
+    else:
+        id=request.POST["id"]
+        nombre=request.POST["nombre"]
+        descripcion=request.POST["descripcion"]
+        imagen=request.POST["imagen"]
+        precio=request.POST["precio"]
+        stock=request.POST["stock"]
+        categoria=request.POST["categoria"]       
+                
+        objCategoria=Categoria.objects.get(idCategoria = categoria)
+        obj=Producto.objects.create(id_producto=id,
+                                  nombre=nombre,
+                                  descripcion=descripcion,
+                                  imagen=imagen,
+                                  precio=precio,
+                                  stock=stock,
+                                  idCategoria=objCategoria,
+                                  )
+        obj.save()
+        context={'mensaje':"Ok, datos grabados..."}
+        return render(request,'petanddogs/productos_add.html',context)
+    
+def productos_del(request,pk):
+    context={}
+    try:
+        producto=Producto.objects.get(id_producto=pk)
+        
+        producto.delete()
+        mensaje="Bien, datos eliminados"
+        productos= Producto.objects.all()
+        context= {'productos': productos, 'mensajes': mensaje}
+        return render(request,'petanddogs/productos_list.html', context)
+    except:
+        mensaje="Error, rut no existe..."
+        productos= Producto.objects.all()
+        context={'productos':productos,'mensaje':mensaje}
+        return render(request, 'petanddogs/product_list.html',context)
+    
+def productosUpdate(request):
+    if request.method== "POST":
+        categorias=Categoria.objects.all()
+        context={'categorias':categorias}
+        return render(request,'petanddogs/productos_add.html',context)
+    else:
+        id=request.POST["id"]
+        nombre=request.POST["nombre"]
+        descripcion=request.POST["descripcion"]
+        imagen=request.POST["imagen"]
+        precio=request.POST["precio"]
+        stock=request.POST["stock"]
+        categoria=request.POST["categoria"]       
+                
+        objCategoria=Categoria.objects.get(idCategoria = categoria)
+        producto=Producto()
+        producto.id_producto=id
+        producto.nombre=nombre
+        producto.descripcion=descripcion
+        producto.imagen=imagen
+        producto.precio=precio
+        producto.stock=stock
+        producto.categoria=objCategoria
+ 
+        producto.save()
+        context={'mensaje':"Ok, datos actualizados..."}
+        return render(request,'petanddogs/productos_add.html',context)
+def productos_findEdit(request,pk):
+    if pk !="":
+       producto=Producto.objects.get(id_producto=pk)
+       categorias=Categoria.objects.all()
+       
+       print(type(producto.categoria))
+       
+       context={'producto':producto,'categorias':categorias}
+       if producto:
+           return render(request,'petanddogs/productos_edit.html', context)
+       else:
+           context={'mensaje':"Error, id no existe..."}
+           return render(request, 'petanddogs/product_list.html', context)

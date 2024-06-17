@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h2>Agregar productos</h2>
+        <form action="{% url 'productosAdd'%}" method="POST">
+            {% csrf_token %}
+
+            <pre>Id producto: <input type="text" name="id"></pre>
+            <pre>Nombre: <input type="text" name="nombre"></pre>
+            <pre>descripcion: <input type="text" name="descripcion"></pre>
+            <pre>precio: <input type="text" name="precio"></pre>
+            <pre>stock: <input type="text" name="stock"></pre>
+            <pre>categoria: <select name="categoria">
+                {% for categoria in categorias %}
+                    <option value="{{categoria.idCategoria}}">{{categoria.categoria}}</option>
+                {% endfor %}
+            </select></pre>
+            <pre>Imagen: <input type="file" name="imagen"></pre>
+
+
+            <input type="submit" name="opcion" value="Agregar">
+        </form> <br><br>
+        <a href="{% url 'crud' %}"> Volver </a>
+        <br>
+        <div id="idMensajes">
+            {% if mensaje %}
+            {{mensaje}}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

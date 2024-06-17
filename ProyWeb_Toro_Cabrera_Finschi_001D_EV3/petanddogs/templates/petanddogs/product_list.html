@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+</head>
+<body>
+    <H1>Editar productos</H1>
+    <br>
+
+    <button type="button">
+        <a href="{% url 'productosAdd'%}">Agregar</a>
+    </button>
+
+    <table>
+        {% if productos %}
+             <th>Id producto</th>
+             <th>Nombre</th>
+             <th>Descripcion</th>
+             <th>Precio</th>
+             <th>Stock</th>
+             <th>Categoria</th>
+             <th>Imagen</th>
+             <th>Eliminar</th>
+             <th>Modificar</th>
+             {% for x in productos %}
+                <tr>
+                    <td> {{x.id_producto}}</td>
+                    <td> {{x.nombre}}</td>
+                    <td> {{x.descripcion}}</td>
+                    <td> {{x.precio}}</td>
+                    <td>{{x.stock}}</td>
+                    <td> {{x.categoria}}</td>
+                    <td>
+                        {% if x.imagen %}
+                            <img src="{{ x.imagen.url }}" alt="{{ x.nombre }}" style="width: 100px; height: auto;">
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'productos_del' pk=x.id_producto %}">Eliminar</a></td>
+                    <td><a href="{% url 'productos_findEdit' pk=x.id_producto %}">Modificar</a></td>
+
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+    </table>
+    <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("idMensajes").delay(2000).fadeOut("slow");
+        });
+    </script>
+
+    <div id="idMensajes">
+        {% if mensaje %}
+           {{mensajes}}
+        {% endif %}
+    </div>
+
+
+    
+</body>
+</html>

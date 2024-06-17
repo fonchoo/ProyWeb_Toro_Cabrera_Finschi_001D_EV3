@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h2>Editar productos</h2>
+        <form action="{% url 'productosUpdate'%}" method="POST">
+            {% csrf_token %}
+
+            <pre>Id producto: <input type="text" name="id" value="{{producto.id_producto}}"></pre>
+            <pre>Nombre: <input type="text" name="nombre" value="{{producto.nombre}}"></pre>
+            <pre>descripcion: <input type="text" name="descripcion" value="{{producto.descripcion}}"></pre>
+            <pre>precio: <input type="text" name="precio" value="{{producto.precio}}"></pre>
+            <pre>stock: <input type="text" name="stock" value="{{producto.stock}}"></pre>
+            <pre>categoria: <select name="categoria">
+                {% for categoria in categorias %}
+                    {% if categoria.categoria == producto.id_categoria.categoria %}
+                        <option value="{{categoria.idCategoria}}" selected>{{categoria.categoria}}</option>
+                    {% else %}
+                        <option value="{{categoria.idCategoria}}">{{categoria.categoria}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select></pre>
+            <pre>Imagen: <input type="file" name="imagen" value="{{producto.imagen}}"></pre>
+
+
+            <input type="submit" name="opcion" value="Actualizar">
+        </form> <br><br>
+        <a href="{% url 'crud' %}"> Volver </a>
+        <br>
+        <div id="idMensajes">
+            {% if mensaje %}
+            {{mensaje}}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
