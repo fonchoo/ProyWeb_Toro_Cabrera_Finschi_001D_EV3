@@ -12,7 +12,7 @@ class Categoria(models.Model):
 class Producto(models.Model):
     id_producto              = models.CharField(primary_key=True, max_length=10)
     nombre           = models.CharField(max_length=20)
-    descripcion = models.CharField(max_length=300)
+    descripcion = models.CharField(max_length=5000)
     imagen=models.ImageField(upload_to="imagenes", null=True, blank=True, verbose_name="Imagen")
     precio=models.IntegerField(blank=True, null=True, verbose_name="Precio")
     stock = models.IntegerField(verbose_name="Stock")

@@ -81,7 +81,7 @@ def productosAdd(request):
         id=request.POST["id"]
         nombre=request.POST["nombre"]
         descripcion=request.POST["descripcion"]
-        imagen=request.POST["imagen"]
+        imagen=request.FILES.get("imagen")
         precio=request.POST["precio"]
         stock=request.POST["stock"]
         categoria=request.POST["categoria"]       
@@ -93,7 +93,7 @@ def productosAdd(request):
                                   imagen=imagen,
                                   precio=precio,
                                   stock=stock,
-                                  idCategoria=objCategoria,
+                                  categoria=objCategoria,
                                   )
         obj.save()
         context={'mensaje':"Ok, datos grabados..."}
@@ -108,7 +108,7 @@ def productos_del(request,pk):
         mensaje="Bien, datos eliminados"
         productos= Producto.objects.all()
         context= {'productos': productos, 'mensajes': mensaje}
-        return render(request,'petanddogs/productos_list.html', context)
+        return render(request,'petanddogs/product_list.html', context)
     except:
         mensaje="Error, rut no existe..."
         productos= Producto.objects.all()
@@ -116,32 +116,35 @@ def productos_del(request,pk):
         return render(request, 'petanddogs/product_list.html',context)
     
 def productosUpdate(request):
-    if request.method== "POST":
-        categorias=Categoria.objects.all()
-        context={'categorias':categorias}
-        return render(request,'petanddogs/productos_add.html',context)
-    else:
+    if  request.method =="POST":
         id=request.POST["id"]
         nombre=request.POST["nombre"]
         descripcion=request.POST["descripcion"]
-        imagen=request.POST["imagen"]
+        imagen=request.FILES.get("imagen")
         precio=request.POST["precio"]
         stock=request.POST["stock"]
         categoria=request.POST["categoria"]       
                 
         objCategoria=Categoria.objects.get(idCategoria = categoria)
+        
         producto=Producto()
         producto.id_producto=id
         producto.nombre=nombre
         producto.descripcion=descripcion
-        producto.imagen=imagen
+        if imagen:
+            producto.imagen = imagen
         producto.precio=precio
         producto.stock=stock
         producto.categoria=objCategoria
- 
         producto.save()
-        context={'mensaje':"Ok, datos actualizados..."}
-        return render(request,'petanddogs/productos_add.html',context)
+        
+        categorias = Categoria.objects.all()
+        context={'mensaje':"Ok, datos actualizados...",'categorias':categorias,'producto':producto}
+        return render(request,'petanddogs/productos_edit.html',context)
+    else:
+        productos= Producto.objects.all()
+        context={'productos':productos}
+        return render(request, 'petanddogs/product_list.html', context)
 def productos_findEdit(request,pk):
     if pk !="":
        producto=Producto.objects.get(id_producto=pk)
