@@ -17,4 +17,5 @@ urlpatterns = [
     path('galeria/diamond', views.diamond, name='diamond'),
     path('galeria/orijen', views.orijen, name='orijen'),
     path('galeria/taste', views.taste, name='taste'),
+    path('registroAdd', views.registroAdd, name='registroAdd'),
 ]
