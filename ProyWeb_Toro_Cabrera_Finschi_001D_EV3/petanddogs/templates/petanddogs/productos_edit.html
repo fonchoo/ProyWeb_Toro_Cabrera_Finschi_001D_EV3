@@ -4,9 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/miStyle.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/miStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/add_edit.css' %}"> 
     <title>Editar Productos</title>
     <script src="https://kit.fontawesome.com/f879910058.js" crossorigin="anonymous"></script>
+    <script src="{% static 'javascript/productos.js' %}"></script>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="fadein">
@@ -18,7 +27,7 @@
                 <ul class="nav-links">
                     <li><a href="{% url 'index' %}" class="btn"><button>Inicio</button></a></li>
                     <li><a href="{% url 'quienessomos' %}" class="btn"><button>Quienes Somos</button></a></li>
-                    <li><a class="btn"><button disabled>Galeria</button></a></li>
+                    <li><a href="{% url 'galeria' %}" class="btn"><button>Galeria</button></a></li>
                     <li><a href="{% url 'adopcion' %}" class="btn"><button>Adopcion</button></a></li>
                     <li><a href="{% url 'razas' %}" class="btn"><button>Razas de perro</button></a></li>
                     <li><a href="{% url 'FormRegistro' %}"><i class="fa-solid fa-user" id="icon-register"></i></a></li>
@@ -39,7 +48,7 @@
         <div id="clock"></div>
     <div style="text-align: center;">
         <h2>Editar productos</h2>
-        <form action="{% url 'productosUpdate' %}" method="POST" enctype="multipart/form-data">
+        <form name="productForm" action="{% url 'productosUpdate' %}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
             {% csrf_token %}
             <pre>Id producto: <input type="text" name="id" value="{{producto.id_producto}}"></pre>
             <pre>Nombre: <input type="text" name="nombre" value="{{producto.nombre}}"></pre>

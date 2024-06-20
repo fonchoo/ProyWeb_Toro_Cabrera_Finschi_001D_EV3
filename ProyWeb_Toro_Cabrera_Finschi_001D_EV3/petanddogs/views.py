@@ -145,6 +145,8 @@ def productosUpdate(request):
         productos= Producto.objects.all()
         context={'productos':productos}
         return render(request, 'petanddogs/product_list.html', context)
+    
+    
 def productos_findEdit(request,pk):
     if pk !="":
        producto=Producto.objects.get(id_producto=pk)
