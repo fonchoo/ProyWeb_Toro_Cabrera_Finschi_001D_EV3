@@ -63,13 +63,13 @@ def taste(request):
     return render(request, 'petanddogs/Taste.html', context)
 
 
-#************************* REGSITRO *******************************
+#************************* REGISTRO *******************************
 
 def registroAdd(request):
     if request.method != "POST":
         registros = Registro.objects.all()
         context={'registros':registros}
-        return render(request, 'test1/registro.html', context)
+        return render(request, 'petanddogs/FormRegistro.html', context)
     else:
         email=request.POST["email"]
         nombre=request.POST["nombre"]
@@ -84,5 +84,5 @@ def registroAdd(request):
                                     activo=1)
 
         obj.save()
-        context={'mensaje' : 'Datos guardados...'}
-        return render(request, 'test1/registro.html', context)
+        context={'mensaje' : 'Datos registrados...'}
+        return render(request, 'petanddogs/FormRegistro.html', context)
