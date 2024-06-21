@@ -62,11 +62,6 @@ def taste(request):
     context={}
     return render(request, 'petanddogs/Taste.html', context)
 
-def productos(request):
-    productos= Producto.objects.all()
-    context={"productos":productos}
-    return render(request, 'petanddogs/productos.html', context)
-
 def crud(request):
     productos= Producto.objects.all()
     context={'productos':productos}
