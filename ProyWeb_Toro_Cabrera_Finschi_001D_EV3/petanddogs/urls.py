@@ -27,4 +27,3 @@ urlpatterns = [
     path('productos_del/<str:pk>', views.productos_del, name='productos_del'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

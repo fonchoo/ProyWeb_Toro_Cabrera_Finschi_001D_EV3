@@ -48,7 +48,7 @@
         <div id="clock"></div>
     <div style="text-align: center;">
         <h2>Agregar productos</h2>
-        <form name="productForm" action="{% url 'productosUpdate' %}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <form name="productForm" action="productosAdd" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
             {% csrf_token %}
             <pre>Id producto: <input type="text" name="id"></pre>
             <pre>Nombre: <input type="text" name="nombre"></pre>

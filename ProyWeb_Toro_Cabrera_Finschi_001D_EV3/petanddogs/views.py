@@ -73,7 +73,7 @@ def crud(request):
     return render(request, 'petanddogs/product_list.html',context)
 
 def productosAdd(request):
-    if request.method is not "POST":
+    if request.method != "POST":
         categorias=Categoria.objects.all()
         context={'categorias':categorias}
         return render(request,'petanddogs/productos_add.html',context)
