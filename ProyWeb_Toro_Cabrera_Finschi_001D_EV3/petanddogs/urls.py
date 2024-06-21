@@ -1,7 +1,5 @@
 from django.urls import path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('index', views.index, name='index'),
@@ -25,5 +23,6 @@ urlpatterns = [
     path('productosUpdate', views.productosUpdate, name='productosUpdate'),
     path('productos_findEdit/<str:pk>', views.productos_findEdit, name='productos_findEdit'),
     path('productos_del/<str:pk>', views.productos_del, name='productos_del'),
+    path('registroAdd', views.registroAdd, name='registroAdd'),
 ]
 

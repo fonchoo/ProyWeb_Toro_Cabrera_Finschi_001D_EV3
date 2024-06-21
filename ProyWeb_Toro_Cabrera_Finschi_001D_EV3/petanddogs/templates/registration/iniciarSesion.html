@@ -50,7 +50,7 @@
   <main>
   <h1>INICAR SESION</h1>
   <form action="" method="get" class="formulario" id="formulario">
-
+    {% csrf_token %}
   <!-- Grupo: Correo Electronico -->
   <div class="formulario__grupo" id="grupo__correo">
     <label for="correo" class="formulario__label">Correo Electrónico</label>
