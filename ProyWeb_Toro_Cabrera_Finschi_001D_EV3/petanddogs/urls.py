@@ -17,12 +17,12 @@ urlpatterns = [
     path('galeria/diamond', views.diamond, name='diamond'),
     path('galeria/orijen', views.orijen, name='orijen'),
     path('galeria/taste', views.taste, name='taste'),
+    path('productos', views.productos, name='productos'),
     path('crud',views.crud,name='crud'),
     path('productosAdd', views.productosAdd, name='productosAdd'),
     path('productosUpdate', views.productosUpdate, name='productosUpdate'),
     path('productos_findEdit/<str:pk>', views.productos_findEdit, name='productos_findEdit'),
     path('productos_del/<str:pk>', views.productos_del, name='productos_del'),
     path('registroAdd', views.registroAdd, name='registroAdd'),
-    path('login/', views.login_view, name='login'),
 ]
 
