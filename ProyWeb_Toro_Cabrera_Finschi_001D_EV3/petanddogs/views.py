@@ -75,12 +75,14 @@ def registroAdd(request):
         nombre=request.POST["nombre"]
         apellido=request.POST["apellido"]
         contraseña=request.POST["contraseña"]
+        confirmContraseña=request.POST["confContraseña"]
         activo="1"
 
         obj=Registro.objects.create(email=email,
                                     nombre=nombre,
                                     apellido=apellido,
                                     contraseña=contraseña,
+                                    confContraseña=confirmContraseña,
                                     activo=1)
 
         obj.save()

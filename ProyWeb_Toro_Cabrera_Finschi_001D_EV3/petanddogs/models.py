@@ -7,7 +7,8 @@ class Registro(models.Model):
     nombre = models.CharField(max_length=50, null=False)
     apellido = models.CharField(max_length=50, null=False)
     contraseña = models.CharField(max_length=128, null=False)
+    confContraseña = models.CharField(max_length=128, null=False)
     activo = models.IntegerField()
 
     def __str__(self):
-        return str(self.email)+" "+ str(self.nombre)+" "+ str(self.apellido)
+        return str(self.email)+" "+ str(self.nombre)+" "+ str(self.apellido)+" "+ str(self.contraseña)
