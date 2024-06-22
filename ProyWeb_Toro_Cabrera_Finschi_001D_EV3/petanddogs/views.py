@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from .models import Categoria, Producto, Registro
-# Create your views here.
-
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django import forms
+    
+    
 def index(request):
     context={}
     return render(request,'petanddogs/index.html', context)
@@ -155,7 +159,12 @@ def productos_findEdit(request,pk):
        else:
            context={'mensaje':"Error, id no existe..."}
            return render(request, 'petanddogs/product_list.html', context)
-    
+       
+       
+
+#************************* REGSITRO *******************************
+
+
 def registroAdd(request):
     if request.method != "POST":
         registros = Registro.objects.all()
@@ -177,3 +186,112 @@ def registroAdd(request):
         obj.save()
         context={'mensaje' : 'Datos guardados...'}
         return render(request, 'test1/registro.html', context)
+    
+def login_view(request):
+    form = LoginForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            correo = form.cleaned_data.get('correo')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=correo, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Sesión Iniciada! Vuelva a navegar.')
+                return redirect('index')  # redirige a la página principal u otra página
+            else:
+                messages.error(request, 'Correo o contraseña incorrectos.')
+    return render(request, 'login.html', {'form': form})
+
+class LoginForm(forms.Form):
+    correo = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'formulario__input',
+        'placeholder': 'correo@correo.com',
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'formulario__input',
+    }))
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+from django.contrib.auth import logout
+
+def user_logout(request):
+    logout(request)
+    return redirect('index')
+
+
+

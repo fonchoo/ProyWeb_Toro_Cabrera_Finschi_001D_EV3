@@ -132,6 +132,12 @@ main {
 	display: none;
 }
 
+.formulario__mensaje-fallido {
+	font-size: 14px;
+	color: #920025;
+	display: none;
+}
+
 .formulario__mensaje-exito-activo {
 	display: block;
 }
