@@ -47,26 +47,27 @@
     
     <main class="mainformulario">
         <div class="contenedor-formulario">
-            <form action="" class="formulario" id="formulario">
+            <form action="{% url 'guardar_contacto' %}" method="POST" class="formulario" id="formulario">
+                {% csrf_token %}
                 <h1>Formulario</h1>
                 <div>
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" placeholder="Gabriel">
+                    <input type="text" id="nombre" name="nombre" placeholder="Gabriel" required>
                     <span id="errorNombre" class="error"></span>
                 </div>
                 <div>
                     <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" placeholder="Boric">
+                    <input type="text" id="apellido" name="apellido" placeholder="Boric" required>
                     <span id="errorApellido" class="error"></span>
                 </div>
                 <div>
                     <label for="mail">Mail</label>
-                    <input type="text" id="mail" placeholder="presi@gmail.com">
+                    <input type="email" id="mail" name="mail" placeholder="presi@gmail.com" required>
                     <span id="errorMail" class="error"></span>
                 </div>
                 <div>
                     <label for="mensaje">Mensaje</label>
-                    <input type="text" id="mensaje" placeholder="Escribe tu mensaje aqui, nos contactaremos contigo mediante tu mail">
+                    <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí, nos contactaremos contigo mediante tu mail" required></textarea>
                     <span id="errorMensaje" class="error"></span>
                 </div>
                 <input type="submit" onclick=' return enviarFormulario()' value="Enviar">

@@ -1,5 +1,10 @@
 from django.shortcuts import render
 
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import Contacto
+from .forms import ContactoForm 
+
 # Create your views here.
 def index(request):
     context={}
@@ -60,3 +65,18 @@ def orijen(request):
 def taste(request):
     context={}
     return render(request, 'petanddogs/Taste.html', context)
+
+
+def guardar_contacto(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        mail = request.POST.get('mail')
+        mensaje = request.POST.get('mensaje')
+
+        contacto_nuevo = Contacto(nombre=nombre, apellido=apellido, mail=mail, mensaje=mensaje)
+        contacto_nuevo.save()
+
+        return HttpResponseRedirect(reverse('index'))  # Redirigir a la página principal o donde sea
+
+    return render(request, 'petanddogs/index.html') 
