@@ -17,6 +17,10 @@ def formRegistro(request):
     context={}
     return render(request,'petanddogs/FormRegistro.html', context)
 
+def perfil(request):
+    context={}
+    return render(request,'petanddogs/perfil.html', context)
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')

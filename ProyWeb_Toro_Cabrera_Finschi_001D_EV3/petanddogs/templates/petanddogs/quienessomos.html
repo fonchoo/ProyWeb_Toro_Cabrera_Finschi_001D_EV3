@@ -27,11 +27,12 @@
                     <li><a href="{% url 'adopcion' %}" class="btn"><button> Adopcion</button></a></li>
                     <li><a href="{% url 'razas' %}" class="btn"><button>Razas de perro</button></a></li>
                     {% if request.user.is_authenticated%}
-                        <li><a href="{% url 'exit' %}" class="btn"><button>Cerrar Sesion</button></a></li>
+                        <li><a href="{% url 'perfil' %}" ><i class="fa-solid fa-user" id="icon-register"></i></a></li>
                     {% else %}
                         <li><a href="{% url 'FormRegistro' %}"><i class="fa-solid fa-user" id="icon-register"></i></a></li>
                     {% endif %}
                 </ul>
+    
             </nav> 
             <a onclick="openNav()" class="menu"><button>Menu</button></a>
             <div class="overlay" id="mobile-menu">
