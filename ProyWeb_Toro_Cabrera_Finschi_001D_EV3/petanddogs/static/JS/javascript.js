@@ -8,6 +8,18 @@ var errorMail = document.getElementById('errorMail');
 var errorMensaje = document.getElementById('errorMensaje');
 var mensajeExito = document.getElementById('mensajeExito');
 
+
+
+function openNav(){
+    document.getElementById("mobile-menu").style.width = "100%";
+}
+
+function closeNav(){
+    document.getElementById("mobile-menu").style.width = "0%";
+}
+
+
+
 function enviarFormulario() {
     console.log('Enviando formulario...')
 
