@@ -67,7 +67,8 @@
                         <th>Imagen</th>
                         {% if perms.petanddogs.delete_producto%}
                             <th>Eliminar</th>
-                        {% elif perms.petanddogs.change_producto%}
+                        {% endif %}
+                        {% if perms.petanddogs.change_producto%}
                             <th>Modificar</th>
                         {% endif %}
                     </tr>
@@ -90,7 +91,8 @@
                             </td>
                             {% if perms.petanddogs.delete_producto %}
                                 <td><a href="{% url 'productos_del' pk=x.id_producto %}">Eliminar</a></td>
-                            {% elif perms.petanddogs.change_producto %}
+                            {% endif %}
+                            {% if perms.petanddogs.change_producto %}
                                 <td><a href="{% url 'productos_findEdit' pk=x.id_producto %}">Modificar</a></td>
                             {% endif %}
 

@@ -135,7 +135,6 @@ def productos_del(request,pk):
         context={'productos':productos,'mensaje':mensaje}
         return render(request, 'petanddogs/product_list.html',context)
 @login_required
-@permission_required('petanddogs.change_producto') 
 def productosUpdate(request):
     if  request.method =="POST":
         id=request.POST["id"]
