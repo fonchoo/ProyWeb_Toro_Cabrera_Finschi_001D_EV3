@@ -18,4 +18,6 @@ urlpatterns = [
     path('galeria/orijen', views.orijen, name='orijen'),
     path('galeria/taste', views.taste, name='taste'),
     path('registrosAdd', views.registroAdd, name='registroAdd'),
+    path('login_exist', views.login_exist, name='login_exist'),
+    path('logout/', views.exit, name='exit'),
 ]

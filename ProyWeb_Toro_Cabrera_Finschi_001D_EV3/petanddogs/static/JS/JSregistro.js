@@ -63,8 +63,8 @@ function enviarFormulario(){
     if(contraseña.value.trim() === '') {
         errorContraseña.textContent = 'Ingresa una contraseña';
         hayErrores = true; // Se establece a true si hay un error
-    } else if (contraseña.value.length < 4 || contraseña.value.length > 12) {
-        errorContraseña.textContent = 'La contraseña debe tener entre 4 y 12 caracteres';
+    } else if (contraseña.value.length < 4) {
+        errorContraseña.textContent = 'La contraseña debe tener minimo 4';
         hayErrores = true; // Se establece a true si hay un error
     } else {
         errorContraseña.textContent = '';

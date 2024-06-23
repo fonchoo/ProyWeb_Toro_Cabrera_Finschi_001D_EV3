@@ -124,3 +124,9 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR,'petanddogs/static'),)
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#VARIABLES DE REDIRRECION DE LOGIN Y LOGOUT
+LOGIN_REDIRECT_URL = 'galeria'
+LOGOUT_REDIRECT_URL = 'index'
+
+AUTH_USER_MODEL = 'petanddogs.CustomUser'
