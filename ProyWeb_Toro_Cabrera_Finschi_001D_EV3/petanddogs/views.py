@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from .models import Categoria, Producto, Registro
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate,login
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 
 # Create your views here.
-
+def exit(request):
+    logout(request)
+    return redirect('/')
 def index(request):
     context={}
     return render(request,'petanddogs/index.html', context)
@@ -14,7 +17,7 @@ def formRegistro(request):
     context={}
     return render(request,'petanddogs/FormRegistro.html', context)
 
-def login(request):
+def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -24,7 +27,7 @@ def login(request):
         if user is not None:
             login(request, user)
             # Redirigir a la página principal o a donde sea necesario
-            return redirect('index')
+            return redirect('/')
         else:
             # Manejar el caso de inicio de sesión fallido
             return render(request, 'registration/login.html', {'error_message': 'Credenciales inválidas'})
@@ -80,12 +83,14 @@ def taste(request):
     return render(request, 'petanddogs/Taste.html', context)
 
 @login_required
+@permission_required('petanddogs.view_producto')
 def crud(request):
     productos= Producto.objects.all()
     context={'productos':productos}
     return render(request, 'petanddogs/product_list.html',context)
 
 @login_required
+@permission_required('petanddogs.add_producto')
 def productosAdd(request):
     if request.method != "POST":
         categorias=Categoria.objects.all()
@@ -113,6 +118,7 @@ def productosAdd(request):
         context={'mensaje':"Ok, datos grabados..."}
         return render(request,'petanddogs/productos_add.html',context)
 @login_required
+@permission_required('petanddogs.delete_producto')
 def productos_del(request,pk):
     context={}
     try:
@@ -128,7 +134,8 @@ def productos_del(request,pk):
         productos= Producto.objects.all()
         context={'productos':productos,'mensaje':mensaje}
         return render(request, 'petanddogs/product_list.html',context)
-@login_required  
+@login_required
+@permission_required('petanddogs.change_producto') 
 def productosUpdate(request):
     if  request.method =="POST":
         id=request.POST["id"]
@@ -160,7 +167,8 @@ def productosUpdate(request):
         context={'productos':productos}
         return render(request, 'petanddogs/product_list.html', context)
     
-@login_required  
+@login_required
+@permission_required('petanddogs.change_producto')
 def productos_findEdit(request,pk):
     if pk !="":
        producto=Producto.objects.get(id_producto=pk)
