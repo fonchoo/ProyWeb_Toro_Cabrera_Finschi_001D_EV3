@@ -46,13 +46,25 @@
   </header>
   <main class="container">
     <div class="form">
-        <form action="{% url 'login_exist' %}" method="POST" class="fomulario">
+        <form  action="{% url 'registroAdd' %}" method="POST" class="fomulario">
             {% csrf_token %}
-            <h1>Iniciar sesion</h1>
+            <h1>REGISTRO</h1>
+            <br>
+            <div>
+                <label for="nombre">Nombre: </label>
+                <input type="text" name="first_name" id="nombre" class="txt"> 
+                <span id="errorNombre" class="error"></span>
+            </div>
+            <br>
+            <div>
+                <label for="apellido">Apellido: </label>
+                <input type="text" name="last_name" id="apellido" class="txt">
+                <span id="errorApellido" class="error"></span>
+            </div>
             <br>
             <div>
                 <label for="mail">Email: </label>
-                <input type="text" name="email" id="mail" required class="txt">
+                <input type="email" name="email" id="mail" required class="txt">
                 <span id="errorMail" class="error"></span>
             </div>
             <br>
@@ -62,6 +74,11 @@
                 <span id="errorContraseña" class="error"></span>
             </div>
             <br>
+            <div>
+                <label for="confirmContraseña">Confirm Password: </label>
+                <input type="password" name="password_confirm" id="confirmContraseña" class="pwd">
+                <span id="errorContraseña2" class="error"></span>
+            </div>
             <br>
             <div class="btn">
                 <button type="submit" name="opcion" onclick=" return enviarFormulario() ">Enviar datos</button>
@@ -70,7 +87,7 @@
               <p style="color: red;">{{ error_message }}</p>
             {% endif %}
             <br>
-            ¿No tienes cuenta? <a href="{% url 'FormRegistro' %}">click aqui</a>
+            ¿Ya tienes cuenta? <a href="{% url 'login'%}">click aqui</a>
         </form>
         <div id="idMensajes">
           {% if mensaje %}
@@ -80,7 +97,7 @@
     </div>
 </main>
 </div>
-  <script src="{% static 'JS/JSingreso.js' %}"></script>
+  <script src="{% static 'JS/JSregistro.js' %}"></script>
   <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
   <script src="{% static 'JS/nav.js' %}"></script>
 </body>
