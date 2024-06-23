@@ -1,10 +1,13 @@
 from django.shortcuts import render
-from .models import Categoria, Producto, Registro
+from .models import Categoria, Producto
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate,login
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from .forms import UserEditForm
+from django.contrib.auth.models import User
+from .models import CustomUser
+from django.contrib.auth.hashers import make_password
 # Create your views here.
 
 
@@ -19,38 +22,17 @@ def edit_profile(request):
         form = UserEditForm(instance=request.user)
     return render(request, 'petanddogs/editar_perfil.html', {'form': form})
 
-
-def exit(request):
-    logout(request)
-    return redirect('/')
 def index(request):
     context={}
     return render(request,'petanddogs/index.html', context)
 
 def formRegistro(request):
     context={}
-    return render(request,'petanddogs/FormRegistro.html', context)
+    return render(request,'registration/register.html', context)
 
 def perfil(request):
     context={}
     return render(request,'petanddogs/perfil.html', context)
-
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        user = authenticate(request, username=username, password=password)
-        
-        if user is not None:
-            login(request, user)
-            # Redirigir a la página principal o a donde sea necesario
-            return redirect('/')
-        else:
-            # Manejar el caso de inicio de sesión fallido
-            return render(request, 'registration/login.html', {'error_message': 'Credenciales inválidas'})
-
-    return render(request, 'registration/login.html')
 
 def quiensessomos(request):
     context={}
@@ -199,25 +181,46 @@ def productos_findEdit(request,pk):
        else:
            context={'mensaje':"Error, id no existe..."}
            return render(request, 'petanddogs/product_list.html', context)
-    
+
+#***************************** LOGIN **************************************
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST["email"]
+        password = request.POST["password"]
+        try:
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('galeria')
+            else:
+                return render(request, 'registration/login.html', {'error_message': 'Email o contraseña incorrectos'})
+        except User.DoesNotExist:
+            return render(request,'/registration/login.html', {'error_message': 'Email o contraseña incorrectos'})
+    return render(request,'registration/login.html')
+
+def exit(request):
+    logout(request)
+    return redirect('/')
+
 def registroAdd(request):
-    if request.method != "POST":
-        registros = Registro.objects.all()
-        context={'registros':registros}
-        return render(request, 'test1/registro.html', context)
-    else:
+    if request.method == "POST":
         email=request.POST["email"]
-        nombre=request.POST["nombre"]
-        apellido=request.POST["apellido"]
-        contraseña=request.POST["contraseña"]
-        activo="1"
+        first_name=request.POST["first_name"]
+        last_name=request.POST["last_name"]
+        password=request.POST["password"]
+        password_confirm=request.POST["password_confirm"]
 
-        obj=Registro.objects.create(email=email,
-                                    nombre=nombre,
-                                    apellido=apellido,
-                                    contraseña=contraseña,
-                                    activo=1)
+        if CustomUser.objects.filter(email=email).exists():
+            return render(request,'register.html',{'error_message':'El email ya esta registrado'})
+        
+        user=CustomUser.objects.create(email=email,
+                                    first_name=first_name,
+                                    last_name=last_name,
+                                    password=make_password(password))
 
-        obj.save()
-        context={'mensaje' : 'Datos guardados...'}
-        return render(request, 'test1/registro.html', context)
+        user.save()
+        login(request, user)
+        return redirect('login')
+    context={'mensaje' : 'Datos registrados...'}
+    return render(request, 'login.html', context)
