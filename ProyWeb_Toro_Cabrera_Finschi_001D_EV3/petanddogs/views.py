@@ -92,9 +92,9 @@ def registroAdd(request):
 
         user.save()
         login(request, user)
-        return redirect('index')
+        return redirect('login')
     context={'mensaje' : 'Datos registrados...'}
-    return render(request, 'registration/login.html', context)
+    return render(request, 'petanddogs/login.html', context)
     
 #***************************** LOGIN **************************************
 @csrf_protect
@@ -106,7 +106,7 @@ def login_exist(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('index')
+                return redirect('galeria')
             else:
                 return render(request, 'login.html', {'error_message': 'Email o contraseña incorrectos'})
         except User.DoesNotExist:
