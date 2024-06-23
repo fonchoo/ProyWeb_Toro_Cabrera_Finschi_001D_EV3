@@ -24,6 +24,7 @@ urlpatterns = [
     path('productos_findEdit/<str:pk>', views.productos_findEdit, name='productos_findEdit'),
     path('productos_del/<str:pk>', views.productos_del, name='productos_del'),
     path('registroAdd', views.registroAdd, name='registroAdd'),
-    path('logout/',views.exit, name='exit')
+    path('logout/',views.exit, name='exit'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
 ]
 

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quienes Somos</title>
     <link href="{% static 'CSSP/styleM.css' %}" rel="stylesheet">
+    <link href="{% static 'CSS/editar.perfil.css' %}" rel="stylesheet">
     <link href="{% static 'CSS/perfil.css' %}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f879910058.js" crossorigin="anonymous"></script> <!--iconos redes sociales-->
     <style>
@@ -23,7 +24,7 @@
             <nav>
                 <ul class="nav-links">
                     <li><a href="{% url 'index' %}" class="btn"><button>Inicio</button></a></li>
-                    <li><a href="{% url 'quienessomos' %}" class="btn"><button>Quienes Somos</button></a></li>
+                    <li><a class="btn"><button disabled>Quienes Somos</button></a></li>
                     <li><a href="{% url 'galeria' %}" class="btn"><button>Galeria</button></a></li>
                     <li><a href="{% url 'adopcion' %}" class="btn"><button> Adopcion</button></a></li>
                     <li><a href="{% url 'razas' %}" class="btn"><button>Razas de perro</button></a></li>
@@ -33,6 +34,7 @@
                         <li><a href="{% url 'FormRegistro' %}"><i class="fa-solid fa-user" id="icon-register"></i></a></li>
                     {% endif %}
                 </ul>
+    
             </nav> 
             <a onclick="openNav()" class="menu"><button>Menu</button></a>
             <div class="overlay" id="mobile-menu">
@@ -43,41 +45,29 @@
                     <a href="{% url 'adopcion' %}"> Adopcion</a>
                     <a href="{% url 'razas' %}">Razas de perro</a>
                     {% if request.user.is_authenticated%}
-                        <a href="{% url 'perfil' %}">Perfil</a>
+                        <a href="{% url 'exit' %}">Cerrar Sesion</a>
                     {% else %}
                         <a href="{% url 'FormRegistro' %}">Registro</a>
                     {% endif %}
                 </div>
-    </div>
+        </div>
     </header>
     <div id="clock"></div>
-
-    <div class="container">
-        <h1>Perfil de Usuario</h1>
-        <table class="table">
-            <tr>
-                <th>Nombre de Usuario</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ user.first_name }}</td>
-            </tr>
-            <tr>
-                <th>Apellido</th>
-                <td>{{ user.last_name }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-        </table>
-    </div>
-    <div class="button-container">
-        <a href="{% url 'exit' %}" class="logout-button">Cerrar Sesión</a>
-    </div>
-    <div class="button-container">
-        <a href="{% url 'edit_profile' %}" class="logout-button">Editar perfil</a>
+</body>
+</head>
+<body>
+    <div class="profile-container">
+        <h1 class="profile-header">Perfil de Usuario</h1>
+        <form method="post" class="profile-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="button-container">
+                <a href="{% url 'exit' %}" class="logout-button">Cerrar Sesión</a>
+            </div>
+            <div class="button-container">
+                <a href="{% url 'edit_profile' %}" class="logout-button">Editar perfil</a>
+            </div>
+        </form>
     </div>
 </body>
 <footer class="pie-pagina">
@@ -102,4 +92,5 @@
 </footer>
 <script src="{% static 'JS/javascript.js' %}"></script>
 <script src="{% static 'JS/nav.js' %}"></script>
-
+</body>
+</html>

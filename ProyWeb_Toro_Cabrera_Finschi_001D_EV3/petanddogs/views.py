@@ -4,8 +4,22 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate,login
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-
+from .forms import UserEditForm
 # Create your views here.
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')  # Redirigir a la vista del perfil después de guardar
+    else:
+        form = UserEditForm(instance=request.user)
+    return render(request, 'petanddogs/editar_perfil.html', {'form': form})
+
+
 def exit(request):
     logout(request)
     return redirect('/')
