@@ -69,6 +69,11 @@
     </div>
     <script src="{% static 'javascript/java.js' %}"></script>
     <script  src="{% static 'javascript/nav.js' %}"></script>
+    <div class="back">
+        {%if perms.petanddogs.view_producto%}
+            <a href="{% url 'crud' %}">Ver lista de todos los productos</a>
+        {% endif %}
+    </div>
 </body>
 <footer class="pie-pagina">
     <div class="grupo-1">
