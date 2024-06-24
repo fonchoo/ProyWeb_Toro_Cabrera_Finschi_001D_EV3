@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.utils import timezone
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -28,8 +29,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=30, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
-
+    date_joined = models.DateTimeField(default=timezone.now)
+    is_superuser = models.BooleanField(default=False)
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
