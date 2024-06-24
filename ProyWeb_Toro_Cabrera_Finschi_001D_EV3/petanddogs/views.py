@@ -8,6 +8,7 @@ from .forms import UserEditForm
 from django.contrib.auth.hashers import make_password
 from .models import CustomUser
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_protect
 # Create your views here.
 def index(request):
     context={}
@@ -170,6 +171,7 @@ def productos_findEdit(request,pk):
            return render(request, 'petanddogs/product_list.html', context)
 
 #***************************** REGISTRO *************************************
+@csrf_protect
 def registroAdd(request):
     if request.method == "POST":
         email=request.POST["email"]
@@ -193,7 +195,7 @@ def registroAdd(request):
     return render(request, 'petanddogs/login.html', context)
 
 #***************************** LOGIN *************************************
-
+@csrf_protect
 def login_view(request):
     if request.method == 'POST':
         email = request.POST["email"]
@@ -204,10 +206,10 @@ def login_view(request):
                 login(request, user)
                 return redirect('galeria')
             else:
-                return render(request, 'login.html', {'error_message': 'Email o contraseña incorrectos'})
+                return render(request, 'registration/login.html', {'error_message': 'Email o contraseña incorrectos'})
         except User.DoesNotExist:
-            return render(request,'login.html', {'error_message': 'Email o contraseña incorrectos'})
-    return render(request,'login.html')
+            return render(request,'registration/login.html', {'error_message': 'Email o contraseña incorrectos'})
+    return render(request,'registration/login.html')
 #***************************** Editar perfil *************************************
 @login_required
 def edit_profile(request):

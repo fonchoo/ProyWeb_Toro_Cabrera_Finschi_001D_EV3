@@ -46,7 +46,7 @@
   </header>
   <main class="container">
     <div class="form">
-        <form action="{% url 'login_exist' %}" method="POST" class="fomulario">
+        <form action="{% url 'login_view' %}" method="POST" class="fomulario">
             {% csrf_token %}
             <h1>Iniciar sesion</h1>
             <br>
@@ -70,7 +70,7 @@
               <p style="color: red;">{{ error_message }}</p>
             {% endif %}
             <br>
-            ¿No tienes cuenta? <a href="{% url 'register' %}">click aqui</a>
+            ¿No tienes cuenta? <a href="{% url 'FormRegistro' %}">click aqui</a>
         </form>
         <div id="idMensajes">
           {% if mensaje %}

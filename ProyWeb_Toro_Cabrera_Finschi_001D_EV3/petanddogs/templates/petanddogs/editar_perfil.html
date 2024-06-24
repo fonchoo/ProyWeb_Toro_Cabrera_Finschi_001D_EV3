@@ -62,10 +62,10 @@
             {% csrf_token %}
             {{ form.as_p }}
             <div class="button-container">
-                <a href="{% url 'exit' %}" class="logout-button">Cerrar Sesión</a>
+                <button type="submit" class="logout-button">Guardar Cambios</button>
             </div>
             <div class="button-container">
-                <a href="{% url 'edit_profile' %}" class="logout-button">Editar perfil</a>
+                <a href="{% url 'perfil' %}" class="logout-button">Editar perfil</a>
             </div>
         </form>
     </div>
