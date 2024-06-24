@@ -26,7 +26,11 @@
                 <li><a href="{% url 'galeria' %}" class="btn"><button>Galeria</button></a></li>
                 <li><a class="btn"><button disabled>Adopcion</button></a></li>
                 <li><a href="{% url 'razas' %}" class="btn"><button>Razas de perro</button></a></li>
-                <li><a href="{% url 'FormRegistro' %}"><i class="fa-solid fa-user" id="icon-register"></i></a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'exit' %}" class="btn"><button>Salir</button></a></li>
+                {% else %}
+                    <li><a href="{% url 'iniciarSesion' %}" class="btn">Iniciar Sesion</a></li>
+                {% endif %}
             </ul>
         </nav> 
         <a onclick="openNav()" class="menu"><button>Menu</button></a>
@@ -37,7 +41,11 @@
                 <a href="{% url 'quienessomos' %}">Quienes Somos</a>
                 <a href="{% url 'galeria' %}">Galeria</a>
                 <a href="{% url 'razas' %}">Razas de perro</a>
-                <a href="{% url 'FormRegistro' %}">Registro</a>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'exit' %}" class="btn">Salir</a>
+                {% else %}
+                    <a href="{% url 'iniciarSesion' %}" class="btn">Iniciar Sesion</a>
+                {% endif %}
             </div>
         </div>
     </header>
