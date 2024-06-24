@@ -51,7 +51,7 @@
                     {% if request.user.is_authenticated%}
                         <li><a href="{% url 'perfil' %}" ><i class="fa-solid fa-user" id="icon-register"></i></a></li>
                     {% else %}
-                        <li><a href="{% url 'FormRegistro' %}"><i class="fa-solid fa-user" id="icon-register"></i></a></li>
+                        <li><a href="{% url 'login' %}"><i class="fa-solid fa-user" id="icon-register"></i></a></li>
                     {% endif %}
                 </ul>
             </nav> 
@@ -60,14 +60,14 @@
                 <a onclick="closeNav()" href="" class="close">&times;</a>
                 <div class="overlay-content">
                     <a href="{% url 'index' %}">Inicio</a>
-                    <a href="{% url 'quienessomos' %}">Quienes Somos</a>
+                    <a href="{% url 'quienessomos' %}">Qsuienes Somos</a>
                     <a href="{% url 'galeria' %}">Galeria</a> 
                     <a href="{% url 'adopcion' %}"> Adopcion</a>
                     <a href="{% url 'razas' %}">Razas de perro</a>
                     {% if request.user.is_authenticated%}
                         <a href="{% url 'perfil' %}">Perfil</a>
                     {% else %}
-                        <a href="{% url 'FormRegistro' %}">Registro</a>
+                        <a href="{% url 'login' %}">Registro</a>
                     {% endif %}
                 </div>
             </div>

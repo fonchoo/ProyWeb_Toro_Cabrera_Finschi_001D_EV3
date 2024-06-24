@@ -29,16 +29,6 @@ class CustomUserCreationForm(forms.ModelForm):
             raise forms.ValidationError('Las contraseñas no coinciden.')
         return password_confirm
 
-
-
-
-
-
-
-
-
-
-
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
