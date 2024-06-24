@@ -6,6 +6,8 @@ from .models import CustomUser
 
 
 class CustomUserCreationForm(forms.ModelForm):
+    password_confirm = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput())
+
     class Meta:
         model = CustomUser
         fields = ['email', 'first_name', 'last_name', 'password', 'password_confirm']
@@ -46,16 +48,21 @@ class ProductoForm(forms.ModelForm):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['email', 'first_name', 'last_name']
+
         labels = {
-            'username': 'Nombre de Usuario',
             'first_name': 'Nombre',
             'last_name': 'Apellido',
-            'email': 'Correo Electrónico',
+            'email': 'Correo Electronico',
         }
         widgets = {
-            'username': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'email': forms.EmailInput(attrs={'readonly': 'readonly'}),
         }
+        def clean_email(self):
+            email = self.cleaned_data.get('email')
+            if CustomUser.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+                raise forms.ValidationError('El emmail ya esta en uso.')
+            return email
         
         
         

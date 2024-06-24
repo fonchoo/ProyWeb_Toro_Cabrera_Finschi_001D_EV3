@@ -15,7 +15,7 @@ def index(request):
 
 def formRegistro(request):
     context={}
-    return render(request,'petanddogs/FormRegistro.html', context)
+    return render(request,'registration/register.html', context)
 
 def perfil(request):
     context={}
