@@ -1,14 +1,14 @@
-from django.shortcuts import render
-from .models import Categoria, Producto
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth import authenticate,login
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .forms import UserEditForm
+from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from .models import CustomUser
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
+
+
+
 # Create your views here.
 def index(request):
     context={}
@@ -18,14 +18,15 @@ def formRegistro(request):
     context={}
     return render(request,'registration/register.html', context)
 
-def perfil(request):
+def iniciarSesion(request):
     context={}
-    return render(request,'petanddogs/perfil.html', context)
+    return render(request,'registration/login.html', context)
 
 def quiensessomos(request):
     context={}
     return render(request,'petanddogs/quienessomos.html', context)
 
+@login_required
 def galeria(request):
     context={}
     return render(request,'petanddogs/galeria.html', context)
@@ -69,109 +70,10 @@ def orijen(request):
 def taste(request):
     context={}
     return render(request, 'petanddogs/Taste.html', context)
-#***************************** CRUD *************************************
-@login_required
-@permission_required('petanddogs.view_producto')
-def crud(request):
-    productos= Producto.objects.all()
-    context={'productos':productos}
-    return render(request, 'petanddogs/product_list.html',context)
 
-@login_required
-@permission_required('petanddogs.add_producto')
-def productosAdd(request):
-    if request.method != "POST":
-        categorias=Categoria.objects.all()
-        context={'categorias':categorias}
-        return render(request,'petanddogs/productos_add.html',context)
-    else:
-        id=request.POST["id"]
-        nombre=request.POST["nombre"]
-        descripcion=request.POST["descripcion"]
-        imagen=request.FILES.get("imagen")
-        precio=request.POST["precio"]
-        stock=request.POST["stock"]
-        categoria=request.POST["categoria"]       
-                
-        objCategoria=Categoria.objects.get(idCategoria = categoria)
-        obj=Producto.objects.create(id_producto=id,
-                                  nombre=nombre,
-                                  descripcion=descripcion,
-                                  imagen=imagen,
-                                  precio=precio,
-                                  stock=stock,
-                                  categoria=objCategoria,
-                                  )
-        obj.save()
-        context={'mensaje':"Ok, datos grabados..."}
-        return render(request,'petanddogs/productos_add.html',context)
-@login_required
-@permission_required('petanddogs.delete_producto')
-def productos_del(request,pk):
-    context={}
-    try:
-        producto=Producto.objects.get(id_producto=pk)
-        
-        producto.delete()
-        mensaje="Bien, datos eliminados"
-        productos= Producto.objects.all()
-        context= {'productos': productos, 'mensajes': mensaje}
-        return render(request,'petanddogs/product_list.html', context)
-    except:
-        mensaje="Error, rut no existe..."
-        productos= Producto.objects.all()
-        context={'productos':productos,'mensaje':mensaje}
-        return render(request, 'petanddogs/product_list.html',context)
-@login_required
-def productosUpdate(request):
-    if  request.method =="POST":
-        id=request.POST["id"]
-        nombre=request.POST["nombre"]
-        descripcion=request.POST["descripcion"]
-        imagen=request.FILES.get("imagen")
-        precio=request.POST["precio"]
-        stock=request.POST["stock"]
-        categoria=request.POST["categoria"]       
-                
-        objCategoria=Categoria.objects.get(idCategoria = categoria)
-        
-        producto=Producto()
-        producto.id_producto=id
-        producto.nombre=nombre
-        producto.descripcion=descripcion
-        if imagen:
-            producto.imagen = imagen
-        producto.precio=precio
-        producto.stock=stock
-        producto.categoria=objCategoria
-        producto.save()
-        
-        categorias = Categoria.objects.all()
-        context={'mensaje':"Ok, datos actualizados...",'categorias':categorias,'producto':producto}
-        return render(request,'petanddogs/productos_edit.html',context)
-    else:
-        productos= Producto.objects.all()
-        context={'productos':productos}
-        return render(request, 'petanddogs/product_list.html', context)
-    
-@login_required
-@permission_required('petanddogs.change_producto')
-def productos_findEdit(request,pk):
-    if pk !="":
-       producto=Producto.objects.get(id_producto=pk)
-       categorias=Categoria.objects.all()
-       
-       print(type(producto.categoria))
-       
-       context={'producto':producto,'categorias':categorias}
-       if producto:
-           return render(request,'petanddogs/productos_edit.html', context)
-       else:
-           context={'mensaje':"Error, id no existe..."}
-           return render(request, 'petanddogs/product_list.html', context)
 
-#***************************** REGISTRO *************************************
-@csrf_protect
+#************************* REGISTRO *******************************
+
 def registroAdd(request):
     if request.method == "POST":
         email=request.POST["email"]
@@ -193,10 +95,10 @@ def registroAdd(request):
         return redirect('login')
     context={'mensaje' : 'Datos registrados...'}
     return render(request, 'petanddogs/login.html', context)
-
-#***************************** LOGIN *************************************
+    
+#***************************** LOGIN **************************************
 @csrf_protect
-def login_view(request):
+def login_exist(request):
     if request.method == 'POST':
         email = request.POST["email"]
         password = request.POST["password"]
@@ -206,22 +108,14 @@ def login_view(request):
                 login(request, user)
                 return redirect('galeria')
             else:
-                return render(request, 'registration/login.html', {'error_message': 'Email o contraseña incorrectos'})
+                return render(request, 'login.html', {'error_message': 'Email o contraseña incorrectos'})
         except User.DoesNotExist:
-            return render(request,'registration/login.html', {'error_message': 'Email o contraseña incorrectos'})
-    return render(request,'registration/login.html')
-#***************************** Editar perfil *************************************
-@login_required
-def edit_profile(request):
-    if request.method == 'POST':
-        form = UserEditForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('perfil')  # Redirigir a la vista del perfil después de guardar
-    else:
-        form = UserEditForm(instance=request.user)
-    return render(request, 'petanddogs/editar_perfil.html', {'form': form})
+            return render(request,'login.html', {'error_message': 'Email o contraseña incorrectos'})
+    return render(request,'login.html')
 
+
+
+#***************************** LOGOUT *************************************
 def exit(request):
     logout(request)
-    return redirect('/')
+    return redirect('index')

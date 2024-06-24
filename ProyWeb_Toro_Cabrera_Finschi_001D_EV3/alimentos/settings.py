@@ -56,7 +56,7 @@ ROOT_URLCONF = 'alimentos.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/"templates",],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,19 +125,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR,'petanddogs/static'),)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-LOGIN_REDIRECT_URL="/crud"
-LOGOUT_REDIRECT_URL="/"
-
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-]
+#VARIABLES DE REDIRRECION DE LOGIN Y LOGOUT
+LOGIN_REDIRECT_URL = 'galeria'
+LOGOUT_REDIRECT_URL = 'index'
 
 AUTH_USER_MODEL = 'petanddogs.CustomUser'
-
-
-
